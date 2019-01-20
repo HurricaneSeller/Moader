@@ -41,8 +41,6 @@ public class Moader {
     private static final int TAG_KEY_URI = 182;
 
     private static final long DISK_CACHE_SIZE = 52428800; //1024 * 1024 * 50
-    private static final int I0_BUFFER_SIZE = 8192;//1024 * 8
-    private static final int DISK_CACHE_INDEX = 0;
     private static final String TAG = "Moader";
 
     private Executor mExecutor;
