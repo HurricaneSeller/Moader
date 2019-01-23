@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Looper;
 import android.os.StatFs;
 
 import java.io.BufferedInputStream;
@@ -34,6 +35,7 @@ public class Utils {
         final StatFs statFs = new StatFs(path.getPath());
         return statFs.getBlockSizeLong() * statFs.getAvailableBlocksLong();
     }
+
     public static String hashKeyFromUri(String uri) {
         String cacheKey;
         try {
@@ -69,5 +71,13 @@ public class Utils {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     *
+     * @return return true when on main thread.
+     */
+    public static boolean checkIfOnUitThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
     }
 }
