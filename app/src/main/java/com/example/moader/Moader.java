@@ -44,8 +44,10 @@ public class Moader {
     private static final String TAG = "Moader";
 
     private Executor mExecutor;
-    private boolean mIsDiskLruCacheCreated = false;
+    private boolean mIsDiskLruCacheCreated;
     private Downloader mDownloader;
+    private Cache mCache;
+    private DiskLruCache mDiskLruCache;
 
     @SuppressLint("StaticFieldLeak")
     private static volatile Moader MOADER = null;
@@ -65,10 +67,10 @@ public class Moader {
     }
 
     public final void bindBitmap(@NonNull final String uri, @NonNull final ImageView imageView,
-                           final int targetWidth,
-                           final int targetHeight) {
+                                 final int targetWidth,
+                                 final int targetHeight) {
         imageView.setTag(TAG_KEY_URI, uri);
-        Bitmap bitmap = mDownloader.loadBitmapFromMemCache(uri);
+        Bitmap bitmap = mCache.loadBitmapFromMemCache(uri);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
             return;
@@ -92,11 +94,11 @@ public class Moader {
     }
 
     private Bitmap loadBitmap(String uri, int targetWidth, int targetHeight) throws IOException {
-        Bitmap bitmap = mDownloader.loadBitmapFromMemCache(uri);
+        Bitmap bitmap = mCache.loadBitmapFromMemCache(uri);
         if (bitmap != null) {
             return bitmap;
         }
-        bitmap = mDownloader.loadBitmapFromDiskCache(uri, targetWidth, targetHeight);
+        bitmap = mCache.loadBitmapFromDiskCache(mDiskLruCache, uri, targetWidth, targetHeight);
         if (bitmap != null) {
             return bitmap;
         }
@@ -122,11 +124,13 @@ public class Moader {
     };
 
 
-    private Moader(Executor executor, Cache memoryCache, Context context, DiskLruCache diskLruCache,
-                   boolean isDiskLruCacheCreated, Downloader downloader) {
+    private Moader(Executor executor, Cache memoryCache, DiskLruCache diskLruCache, boolean isDiskLruCacheCreated,
+                   Downloader downloader) {
         mExecutor = executor;
         mIsDiskLruCacheCreated = isDiskLruCacheCreated;
         mDownloader = downloader;
+        mCache = memoryCache;
+        mDiskLruCache = diskLruCache;
     }
 
     public static class Builder {
@@ -192,9 +196,9 @@ public class Moader {
                 }
             }
             if (mDownloader == null) {
-                mDownloader = new MoaderDownloader(mDiskLruCache, mCache, mBitmapTransformer);
+                mDownloader = new MoaderDownloader(mDiskLruCache, mCache);
             }
-            return new Moader(mExecutor, mCache, mContext, mDiskLruCache, mIsDiskLruCacheCreated, mDownloader);
+            return new Moader(mExecutor, mCache, mDiskLruCache, mIsDiskLruCacheCreated, mDownloader);
         }
 
     }
