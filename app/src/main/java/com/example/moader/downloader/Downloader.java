@@ -8,5 +8,4 @@ import java.io.OutputStream;
 public interface Downloader {
     Bitmap downloadBitmapFromUri(String uri);
     Bitmap downloadBitmapFromHttp(String uri, int targetWidth, int targetHeight) throws IOException;
-    boolean downloadUrlToStream(String uri, OutputStream outputStream);
 }

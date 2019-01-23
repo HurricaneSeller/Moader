@@ -80,8 +80,7 @@ public class MoaderDownloader implements Downloader {
     }
 
 
-    @Override
-    public boolean downloadUrlToStream(String uri, OutputStream outputStream) {
+    private boolean downloadUrlToStream(String uri, OutputStream outputStream) {
         HttpURLConnection connection = null;
         BufferedOutputStream bufferedOutputStream = null;
         BufferedInputStream bufferedInputStream = null;

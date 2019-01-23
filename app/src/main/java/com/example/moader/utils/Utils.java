@@ -74,7 +74,6 @@ public class Utils {
     }
 
     /**
-     *
      * @return return true when on main thread.
      */
     public static boolean checkIfOnUitThread() {

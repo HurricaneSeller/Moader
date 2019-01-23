@@ -4,8 +4,12 @@ import android.graphics.Bitmap;
 import android.util.LruCache;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 import androidx.annotation.NonNull;
+
+import static com.example.moader.cache.MoaderCache.DISK_CACHE_INDEX;
+import static com.example.moader.utils.Utils.hashKeyFromUri;
 
 public abstract class Cache extends LruCache<String, Bitmap> {
     private Cache mCache;
@@ -20,13 +24,13 @@ public abstract class Cache extends LruCache<String, Bitmap> {
         this.mCache = cache;
     }
 
-    public final void addBitmapToMemCache(String key, Bitmap bitmap) {
+    final void addBitmapToMemCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) != null) {
             mCache.put(key, bitmap);
         }
     }
 
-    public final Bitmap getBitmapFromMemCache(String key) {
+    final Bitmap getBitmapFromMemCache(String key) {
         return mCache.get(key);
     }
 
@@ -34,4 +38,6 @@ public abstract class Cache extends LruCache<String, Bitmap> {
                                                    int targetHeight) throws IOException;
 
     public abstract Bitmap loadBitmapFromMemCache(String uri);
+
+
 }
