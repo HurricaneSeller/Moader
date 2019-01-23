@@ -36,6 +36,8 @@ import static com.example.moader.utils.Utils.getUsableSpace;
  * Moader moader = builder.build();
  */
 
+
+// TODO: 1/23/19  haven't change disklrucache yet...
 public class Moader {
     private static final int MESSAGE_POST_RESULT = 1;
     private static final int TAG_KEY_URI = 182;
@@ -140,7 +142,6 @@ public class Moader {
         private DiskLruCache mDiskLruCache;
         private boolean mIsDiskLruCacheCreated = false;
         private Downloader mDownloader;
-        private BitmapTransformer mBitmapTransformer = new BitmapTransformer();
 
 
         Builder(Context context) {
