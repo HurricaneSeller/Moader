@@ -15,7 +15,6 @@ import com.example.moader.cache.MoaderCache;
 import com.example.moader.downloader.Downloader;
 import com.example.moader.downloader.MoaderDownloader;
 import com.example.moader.executor.MoaderExecutor;
-import com.example.moader.utils.BitmapTransformer;
 import com.example.moader.utils.LoaderResult;
 
 import java.io.File;
@@ -104,7 +103,7 @@ public class Moader {
         if (bitmap != null) {
             return bitmap;
         }
-        bitmap = mDownloader.loadBitmapFromHttp(uri, targetWidth, targetHeight);
+        bitmap = mDownloader.downloadBitmapFromHttp(uri, targetWidth, targetHeight);
         if (bitmap == null && !mIsDiskLruCacheCreated) {
             Log.w(TAG, "loadBitmap: error occur");
             bitmap = mDownloader.downloadBitmapFromUri(uri);

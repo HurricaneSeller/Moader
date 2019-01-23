@@ -58,7 +58,7 @@ public class MoaderDownloader implements Downloader {
     }
 
     @Override
-    public Bitmap loadBitmapFromHttp(String uri, int targetWidth, int targetHeight) throws IOException {
+    public Bitmap downloadBitmapFromHttp(String uri, int targetWidth, int targetHeight) throws IOException {
         if (checkIfOnUitThread()) {
             throw new RuntimeException("can not run time-consuming task on main thread.");
         }
@@ -76,7 +76,7 @@ public class MoaderDownloader implements Downloader {
             }
             mDiskLruCache.flush();
         }
-        return mMemoryCache.loadBitmapFromDiskCache(uri, targetWidth, targetHeight);
+        return mMemoryCache.loadBitmapFromDiskCache(mDiskLruCache, uri, targetWidth, targetHeight);
     }
 
 
